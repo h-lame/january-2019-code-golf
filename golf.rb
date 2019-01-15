@@ -6,7 +6,7 @@ module Golf
   #
   # The parameter `a` is the array of numbers.
   def hole1(a)
-
+    a.reduce :*
     # put your implementation in here, but please leave the comments above and at the 'end'
 
   end # Hole 1
@@ -17,7 +17,12 @@ module Golf
   #
   # The parameter 'l' is the limit - the highest number to reach.
   def hole2(l)
-
+    (1..l).map { |x|
+      o = ''
+      o << 'fizz' if (x % 3) == 0
+      o << 'buzz' if (x % 5) == 0
+      o == '' ? x : o
+    }
     # put your implementation in here, but please leave the comments above and at the 'end'
 
   end # Hole 2
@@ -36,7 +41,8 @@ module Golf
   #
   # The parameter `s` is the string to encode, and `x` is the number to shift by.
   def hole3(s, x)
-
+    f = ->(a) { a.zip a.to_a.rotate x }
+    s.chars.map { |c| (f[?A..?Z]+f[?a..?z]).to_h.fetch c, c }.join
     # put your implementation in here, but please leave the comments above and at the 'end'
 
   end # Hole 3
@@ -48,7 +54,16 @@ module Golf
   #
   # The parameter `i` is the number to convert
   def hole4(i)
-
+    o = ''
+    # {1000=>?M,900=>'CM',500=>?D,400=>'CD',100=>?C,90=>'XC',50=>?L,40=>'XL',10=>?X,9=>'IX',5=>?V,4=>'IV',1=>?I}
+    {1000=>?M,900=>'CM',500=>?D,100=>?C,90=>'XC',50=>?L,10=>?X,9=>'IX',5=>?V,4=>'IV',1=>?I}
+    .each { |n,d|
+      while i >= n
+        o << d
+        i -= n
+      end
+    }
+    o
     # put your implementation in here, but please leave the comments above and at the 'end'
 
   end # Hole 4
@@ -62,7 +77,7 @@ module Golf
   #
   # The parameter `l` is the highest number to consider
   def hole5(l)
-
+    (0..l).select { |n| n.to_s(2).count(?1).even? }
     # put your implementation in here, but please leave the comments above and at the 'end'
 
   end # Hole 5
@@ -79,7 +94,7 @@ module Golf
   # The order of the cards doesn't matter
   #
   def hole6
-
+    [?A,*(?2..'10'),?J,?K,?Q].product([?C,?H,?S,?D]).map(&:join) + [?J,?J]
     # put your implementation in here, but please leave the comments above and at the 'end'
 
   end # Hole 5
